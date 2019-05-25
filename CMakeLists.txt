@@ -1,9 +1,16 @@
 cmake_minimum_required(VERSION 2.8.4)
 
-#project(<project_name>)
-#set(MMCU atmega64m1)
-#set(FREQ 16000000)
-#set(BOOTSTART 0xf800) #in bytes
+#project(<>)
+#set(MMCU atmega32m1)
+set(FREQ 16000000)
+
+if (MMCU STREQUAL atmega64m1)
+    set(BOOTSTART 0xf800) #in bytes m641
+    set(FUSE -U lfuse:w:0xf4:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m)
+elseif(MMCU STREQUAL atmega32m1)
+    set(BOOTSTART 0x7800) #in bytes m321
+    set(FUSE -U lfuse:w:0xf4:m -U hfuse:w:0xd3:m -U efuse:w:0xfe:m)
+endif()
 
 set(PROGRAMMER jtag3isp)
 
@@ -121,4 +128,9 @@ add_custom_target("eeprom"
         ${AVRDUDE} -p ${MMCU} -c ${PROGRAMMER} -U eeprom:w:${EEP_FILE}
         DEPENDS ${PROJECT_NAME}
         COMMENT "Eeprom uploading"
+        )
+
+add_custom_target("fuse"
+        ${AVRDUDE} -p ${MMCU} -c ${PROGRAMMER} ${FUSE}
+        COMMENT "Fuse uploading"
         )

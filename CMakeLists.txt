@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.4)
 
-#project(<>)
-#set(MMCU atmega32m1)
+project(h9kx3_band_decoder)
+set(MMCU atmega32m1)
 set(FREQ 16000000)
 
 if (MMCU STREQUAL atmega64m1)
@@ -105,7 +105,7 @@ add_custom_command(
 )
 
 add_custom_target("flash"
-        ${AVRDUDE} -p ${MMCU} -c ${PROGRAMMER} -U ${HEX_FILE}
+        ${AVRDUDE} -p ${MMCU} -c ${PROGRAMMER} -B 8 -U ${HEX_FILE}
         DEPENDS ${PROJECT_NAME}
         COMMENT "Flash uploading"
 )
@@ -118,14 +118,14 @@ if(BOOTSTART)
             )
 
     add_custom_target("flashall"
-            ${AVRDUDE} -p ${MMCU} -c ${PROGRAMMER} -U ${HEX_WITH_BL_FILE}
+            ${AVRDUDE} -p ${MMCU} -c ${PROGRAMMER} -B 8 -U ${HEX_WITH_BL_FILE}
             DEPENDS ${PROJECT_NAME}_with_bl
             COMMENT "Full flash uploading"
             )
 endif(BOOTSTART)
 
 add_custom_target("eeprom"
-        ${AVRDUDE} -p ${MMCU} -c ${PROGRAMMER} -U eeprom:w:${EEP_FILE}
+        ${AVRDUDE} -p ${MMCU} -c ${PROGRAMMER} -B 8 -U eeprom:w:${EEP_FILE}
         DEPENDS ${PROJECT_NAME}
         COMMENT "Eeprom uploading"
         )

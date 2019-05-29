@@ -1,9 +1,11 @@
 /*
- * Project: h9kx3_band_decoder
+ * h9kx3_band_decoder
  *
- * Created: 
- * Author : SQ8KFH
- */ 
+ * Created by SQ8KFH on 2019-05-25.
+ *
+ * Copyright (C) 2019 Kamil Palkowski. All rights reserved.
+ */
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>

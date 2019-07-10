@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.4)
 
 project(h9kx3_band_decoder)
+set(NODE_TYPE 1)
 set(MMCU atmega32m1)
 set(FREQ 16000000)
 
@@ -13,6 +14,8 @@ elseif(MMCU STREQUAL atmega32m1)
 endif()
 
 set(PROGRAMMER jtag3isp)
+
+configure_file(config.h.in config.h)
 
 set(SOURCE_FILES main.c can/can.c can/can.h can/common.c can/common.h can/h9msg.h)
 
@@ -112,8 +115,8 @@ add_custom_target("flash"
 
 if(BOOTSTART)
     add_custom_target(${PROJECT_NAME}_with_bl
-            COMMAND ${SREC_CAT} ${HEX_FILE} -I can/build/h9-bootloader.hex -I -o ${HEX_WITH_BL_FILE} -I
-            DEPENDS ${PROJECT_NAME} h9-bootloader
+            COMMAND ${SREC_CAT} ${HEX_FILE} -I can/build/h9avr-bootloader.hex -I -o ${HEX_WITH_BL_FILE} -I
+            DEPENDS ${PROJECT_NAME} h9avr-bootloader
             COMMENT "Flashs combinating"
             )
 
